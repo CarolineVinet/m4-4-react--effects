@@ -26,7 +26,11 @@ const Game = () => {
           {/* TODO: Calcuate the cookies per second and show it here: */}
           <strong>0</strong> cookies per second
         </Indicator>
-        <Button>
+        <Button
+          onClick={() => {
+            setNumCookies(numCookies + 1);
+          }}
+        >
           <Cookie src={cookieSrc} />
         </Button>
       </GameArea>
@@ -41,7 +45,15 @@ const Game = () => {
               value={item.value}
               numOwned={purchasedItems[item.id]}
               handleClick={() => {
-                console.log("hello bb");
+                if (numCookies < item.cost) {
+                  alert("You're broke bro");
+                } else if (numCookies >= item.cost) {
+                  setNumCookies(numCookies - item.cost);
+                  setPurchasedItems({
+                    ...purchasedItems,
+                    [item.id]: purchasedItems[item.id] + 1,
+                  });
+                }
               }}
             ></Item>
           );
