@@ -11,6 +11,31 @@ const items = [
   { id: "farm", name: "Farm", cost: 1000, value: 80 },
 ];
 
+const useKeyDown = (code, callback) => {
+  const handleKeyDown = (event) => {
+    if (event.code === code) {
+      callback();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  });
+};
+
+const useDocumentTitle = (title, fallbackTitle) => {
+  useEffect(() => {
+    document.title = title;
+    return () => {
+      document.title = fallbackTitle;
+    };
+  }, [title]);
+};
+
 const Game = () => {
   const [numCookies, setNumCookies] = React.useState(100);
   const [purchasedItems, setPurchasedItems] = React.useState({
@@ -32,23 +57,13 @@ const Game = () => {
     setNumCookies(numCookies + numOfGeneratedCookies);
   }, 1000);
 
-  useEffect(() => {
-    document.title = numCookies + " cookies - Cookie Clicker Workshop";
-  }, [numCookies]);
+  useDocumentTitle(
+    `${numCookies} cookies - Cookie Clicker Workshop`,
+    "Cookie Clicker Workshop"
+  );
 
-  const handleKeyDown = (event) => {
-    console.log(event.code, numCookies);
-    if (event.code === "Space") {
-      setNumCookies(numCookies + 1);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
+  useKeyDown("Space", () => {
+    setNumCookies(numCookies + 1);
   });
 
   return (

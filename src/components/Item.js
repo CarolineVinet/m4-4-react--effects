@@ -7,7 +7,7 @@ const Item = ({ name, cost, value, numOwned, handleClick, isFirst }) => {
     if (isFirst) {
       itemRef.current.focus();
     }
-  });
+  }, []);
 
   return (
     <button ref={itemRef} onClick={handleClick}>
