@@ -70,12 +70,17 @@ const Game = () => {
 
       <ItemArea>
         <SectionTitle>Items:</SectionTitle>
-        {items.map((item) => {
+        {items.map((item, index) => {
+          let isFirst = false;
+          if (index === 0) {
+            isFirst = true;
+          }
           return (
             <Item
               name={item.name}
               cost={item.cost}
               value={item.value}
+              isFirst={isFirst}
               numOwned={purchasedItems[item.id]}
               handleClick={() => {
                 if (numCookies < item.cost) {

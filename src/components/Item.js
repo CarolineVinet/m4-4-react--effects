@@ -1,8 +1,16 @@
 import React from "react";
 
-const Item = ({ name, cost, value, numOwned, handleClick }) => {
+const Item = ({ name, cost, value, numOwned, handleClick, isFirst }) => {
+  const itemRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (isFirst) {
+      itemRef.current.focus();
+    }
+  });
+
   return (
-    <button onClick={handleClick}>
+    <button ref={itemRef} onClick={handleClick}>
       <div>
         <h2>{name}</h2>
         <p>
